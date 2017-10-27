@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
+    <link rel="stylesheet"
+        href="./style/helper.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container"
+        ng-controller="TestCtrl as vm">
+        <div>{{vm.defaultDate}} {{vm.benginDate}} {{vm.endDate}}</div>
+        <div class="btn-groups">
+            <button ng-click="vm.show = !vm.show ">销毁</button>
+            <button ng-click="vm.disabled = !vm.disabled ">禁用 {{vm.disabled}}</button>
+            <button ng-click="vm.toggleVisibility($event); ">显示/隐藏 {{vm.visibility}}</button>
+        </div>
+        <form ng-init="vm.show = true;"
+            name="vm.testForm">
+            <div class="form-item">
+                <datepicker ng-model="vm.defaultDate"
+                    date-format="YYYY-MM-DD"
+                    date-min="vm.benginDate"
+                    date-max="vm.endDate"
+                    date-disabled-weekdays="{{vm.datedisabledweekdays}}"
+                    datepicker-visibility="vm.visibility"
+                    ng-if="vm.show"
+                    disabled="vm.disabled"
+                    placeholder="YYYY-MM-DD"
+                    show-today-button="今天"
+                    show-clear-button="清除"
+                    required></datepicker>
+            </div>
+            
+            <div class="form-item">
+                {{vm.benginDate}}
+                <datepicker ng-model="vm.benginDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="开始时间"
+                    show-clear-button="清除"
+                    date-max="vm.endDate"></datepicker>
+            </div>
+
+            <div class="form-item">
+                <datepicker ng-model="vm.endDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="结束时间"
+                    date-min="vm.benginDate"></datepicker>
+            </div>
+            <div class="form-item">
+                <button class="btn btn-primary"
+                    type="button"
+                    ng-disabled="vm.testForm.$invalid">提交</button>
+            </div>
+
+        </form>
+
+    </div>
+    <script src="https://cdn.bootcss.com/moment.js/2.19.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.6/i18n/angular-locale_zh-cn.js"></script>
+</body>
+
+</html>

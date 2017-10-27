@@ -1,0 +1,247 @@
+@brand-primary: #ff6629;
+@hover-color: #ebedf2;
+@date-disabled-color: rgba(0,0,0,.35);
+@calendar-header-textColor: rgba(0,0,0,.6);
+@calendar-date-color: #444;
+@border-color: #ddd;
+@border-radius: 4px;
+@calendar-panel-padding: 10px;
+@calendar-panel-width: 266px;
+@calendar-width: @calendar-panel-width;
+@date-range-calendar-width: (@calendar-panel-width * 2) + 2px;
+@calendar-Zindex: 102;
+@calendar-overlay-Zindex: @calendar-Zindex - 1;
+.clearfix() {
+    &:after,
+    &:before {
+        content: ' ';
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+.ng-calendar {
+    font-family: Helvetica Neue,Arial,sans-serif;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    outline: none;
+    font-size: 14px;
+    list-style: none;
+    background-color: #fff;
+    box-shadow: 0 0 15px 1px rgba(113,106,202,.25);
+    border: 1px solid rgba(113,106,202,.04);
+    border-radius: @border-radius;
+    background-clip: padding-box;
+    line-height: 1.5;   
+    user-select: none; 
+    display: none;
+    width: @calendar-width;
+    z-index: @calendar-Zindex;
+    .clearfix();
+    .calendar-panel {
+        padding: @calendar-panel-padding;
+        width: @calendar-panel-width;
+        float: left;
+    }
+    td,
+    th {
+        border: 0;
+        width: 35px;
+        height: 35px;
+        text-align: center;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 0;
+    }
+    button,
+    input {
+        outline: 0;
+    }
+    a {cursor: pointer;}
+    .calendar-prev-month-btn,
+    .calendar-next-month-btn,
+    .calendar-year-select,
+    .calendar-footer button{
+        border-radius: 3px;
+        transition: background .2s ease;
+        font-weight: 400;
+        color: #212529;
+        &:hover {
+            background: #eee;
+        }
+        &.disabled {
+            opacity: 0;
+            cursor: default;
+            pointer-events: none;
+        }
+    }
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        color: @calendar-header-textColor;
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+        svg {
+            transition: color .2s ease;
+        }
+        path {
+            fill: none;
+            stroke: #212529;
+            stroke-width: 1px;
+        }
+        .calendar-prev-month-btn,
+        .calendar-next-month-btn,
+        .calendar-year-select{
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+        }
+        .calendar-year-select {
+            flex: auto;
+            span {padding:0 4px;}
+        }      
+    }
+    
+    .calendar-years {
+        padding-bottom: 3px;
+        border-bottom: 1px solid fade(@border-color, 78%);
+        .clearfix();
+        .calendar-year {
+            color: #575962;
+            // color: @calendar-date-color;
+            padding:0 5px;
+            display: block;
+            float: left;
+            width: 18%;
+            text-align: center;
+            line-height: 24px;
+            border-radius: 3px;
+            margin: 1%;
+            transition: background .2s ease;
+            &.active-year,
+            &:hover {
+                background: #ebedf2;
+            }
+            &.active-year {
+                color: @brand-primary;
+            }
+        }
+        .calendar-year-btn.disabled {
+            color: @date-disabled-color;
+            cursor: not-allowed;
+            pointer-events: none;
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+    .calendar-column-header {
+        line-height: 18px;
+        width: 33px;
+        padding: 6px 0;
+        font-weight: 500;
+        color: @brand-primary;
+        text-align: center;
+    }
+
+    
+    .calendar-date {
+        padding: 0;
+        color: @calendar-date-color;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        background: transparent;
+        text-align: center;
+        transition: all .15s ease;
+        font-weight: 300;
+        font-size: 14px;
+        outline: 0;
+        width: 33px;
+        height: 33px;
+        cursor: pointer;
+        -webkit-appearance: none;
+        &:hover {
+            background: #ebedf2;
+        }
+    }
+    .calendar-last-month-cell .calendar-date,
+    .calendar-next-month-btn-day .calendar-date {
+        color: rgba(0, 0, 0, .35);
+        background: transparent;
+        cursor: default;
+        pointer-events: none;
+    }
+    .calendar-today .calendar-date {
+        color:@brand-primary;
+        border-color: @brand-primary;
+        font-weight: 400;
+    }
+    .calendar-selected-day .calendar-date {
+        color: #fff;
+        background-color: @brand-primary;
+    }
+    .calenday-disabled .calendar-date{
+        color: @date-disabled-color;
+        // background: rgba(0, 0, 0, 0.03);
+        background: transparent;
+        cursor: not-allowed;
+    }
+    .calendar-footer {
+        padding-top: 10px;
+        border-top: 1px solid @border-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+            line-height: 30px;
+            padding: 0 8px;
+            border: 0;
+            background-color: transparent;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            width: 100%;
+            cursor: pointer;
+        }
+        &.show-all-buttons {
+            justify-content: space-between;
+            button {
+                width: auto;
+            }
+        }
+    }
+}
+.ng-calendar *,
+.ng-calendar *:after,
+.ng-calendar *:before {
+	box-sizing: border-box;
+}
+.calendar-picker-input {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    padding: 6px 12px;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    color: rgba(0,0,0,.9);
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    transition: all .3s;
+    width: @calendar-width;
+}
+
+
