@@ -1,7 +1,4 @@
-// import moment from 'moment';
-const WEEK_OF_ROW = 7;
-const DATE_COLUMNS = 6;
-const ALL_DAY_OF_PANEL = WEEK_OF_ROW * DATE_COLUMNS;
+import {Helper, WEEK_OF_ROW, DATE_COLUMNS} from './helper/helper';
 let DATE_FORMAT = 'YYYY-MM-DD';
 const TODAY = moment(new Date(), DATE_FORMAT);
 export default class controller {
@@ -16,15 +13,16 @@ export default class controller {
         this.windowResizeEvent = this.windowResizeEvent.bind(this);
     }
     $onInit() {
-        const validateDate = this.__validateDate;
+        const validateDate = Helper.validateDate;
         const element = this.$element[0];
         DATE_FORMAT = this.dateFormat || DATE_FORMAT;
         this.input = angular.element(element.querySelector('.calendar-picker-input'));
         this.calendarIsOpend = false;
         this.dateDisabledWeekdays = this.$scope.$eval(this.dateDisabledWeekdays);
         this.ngModel.$render = () => {
-            this.DATE = validateDate(this.ngModel.$viewValue) ? moment(this.ngModel.$viewValue, DATE_FORMAT) : moment();
-            if (this.ngModel.$viewValue) {
+            this.DATE = validateDate(this.ngModel.$viewValue, DATE_FORMAT)
+                ? moment(this.ngModel.$viewValue, DATE_FORMAT) : moment();
+            if (this.ngModel.$viewValue && validateDate(this.ngModel.$viewValue, DATE_FORMAT)) {
                 this.selectedDate = this.ngModel.$viewValue;
             }
             this.updateDatePanel(this.DATE);
@@ -34,12 +32,12 @@ export default class controller {
         this.bindEvents();
     }
     $onChanges(changesObj) {
-        const validateDate = this.__validateDate;
+        const validateDate = Helper.validateDate;
         const {dateMin, dateMax, datepickerVisibility} = changesObj;
 
         const canUpdate = (dateMin && dateMin.currentValue !== dateMin.previousValue) ||
             (dateMax && dateMax.currentValue !== dateMax.previousValue);
-        if (canUpdate && validateDate(this.DATE)) {
+        if (canUpdate && validateDate(this.DATE, DATE_FORMAT)) {
             this.updateDatePanel(this.DATE);
         }
         if (datepickerVisibility) {
@@ -93,10 +91,6 @@ export default class controller {
         this.handleToggleYearPanel();
         this.years = this.yearsGenerator(this.selectedDate);
     }
-    // 验证是不是今天
-    handleIsToday(d) {
-        return moment(d, DATE_FORMAT).isSame(TODAY, 'day');
-    }
     // 高亮已选择的时间
     handleIsSelectedDate(d) {
         const a = moment(d, DATE_FORMAT);
@@ -112,87 +106,38 @@ export default class controller {
         }
         this.updateDatePanel(this.DATE);
     }
-    // 获取一月的日期
-    getDaysInMonth(d) {
-        const validateDate = this.__validateDate;
-        if (validateDate(this.dateMin)) {
+    // 获取填充日期
+    daysGenerator(d) {
+        const validateDate = Helper.validateDate;
+        if (validateDate(this.dateMin, DATE_FORMAT)) {
             const theDate = moment(this.dateMin, DATE_FORMAT).startOf('date');
             this.disabledMinDate = theDate.valueOf();
             this.disabledMinYear = theDate.get('year');
         }
-        if (validateDate(this.dateMax)) {
+        if (validateDate(this.dateMax, DATE_FORMAT)) {
             const theDate = moment(this.dateMax, DATE_FORMAT).startOf('date');
             this.disabledMaxDate = theDate.valueOf();
             this.disabledMaxYear = theDate.get('year');
         }
         const disabledWeekdays = this.dateDisabledWeekdays;
         const canDisabledWeekdays = disabledWeekdays && disabledWeekdays.length;
-        return Array.from({length: moment(d).daysInMonth()}).map((t, i) => {
-            const day = i + 1;
-            const theDate = moment(d).set('date', day).startOf('date');
-            const date = theDate.format(DATE_FORMAT);
-            const value = theDate.valueOf();
-            const weekday = theDate.isoWeekday();
-            const disabledMin = this.dateMin && value <= this.disabledMinDate;
-            const disabledMax = this.dateMax && value >= this.disabledMaxDate;
-            const isToday = this.handleIsToday(date);
-            const disabledWeeekDays = canDisabledWeekdays && disabledWeekdays.includes(weekday);
-            return {
-                date,
-                disabled: disabledMin || disabledMax || disabledWeeekDays,
-                value,
-                isToday,
-                day
-            };
+
+        return Helper.daysGenerator({
+            d,
+            DATE_FORMAT,
+            dateMax: this.dateMax,
+            dateMin: this.dateMin,
+            disabledMinDate: this.disabledMinDate,
+            disabledMaxDate: this.disabledMaxDate,
+            canDisabledWeekdays,
+            disabledWeekdays
         });
-    }
-    // 获取填充日期
-    daysGenerator(d) {
-        const result = [];
-        const daysInMonth = this.getDaysInMonth(d);
-        const firstDayOfMonth = this.getFirstDayOfMonth(d);
-        const daysInPrevMonth = this.getDaysInPrevMonth(d);
-        if (firstDayOfMonth !== 7) {
-            let p = daysInPrevMonth - firstDayOfMonth;
-            while (p < daysInPrevMonth) {
-                const day = ++p;
-                const theDate = moment(d).subtract(1, 'months').set('date', day).startOf('date');
-                result.push({
-                    date: theDate.format(DATE_FORMAT),
-                    value: theDate.valueOf(),
-                    prev: true,
-                    day
-                });
-            }
-        }
-        result.push(...daysInMonth);
-        let n = 0;
-        const len = ALL_DAY_OF_PANEL - result.length;
-        while (n <= len) {
-            const day = ++n;
-            const theDate = moment(d).add(1, 'months').set('date', day).startOf('date');
-            result.push({
-                date: theDate.format(DATE_FORMAT),
-                value: theDate.valueOf(),
-                next: true,
-                day
-            });
-        }
-        return result;
     }
     // 日期按周分组
     daysOfWeeks(column) {
         this.daysInMonth = this.daysInMonth || [];
         const sliceForm = (column - 1) * WEEK_OF_ROW;
         return this.daysInMonth.slice(sliceForm * 1, sliceForm + WEEK_OF_ROW);
-    }
-    // 获取上一月多有多少天
-    getDaysInPrevMonth(d) {
-        return moment(d).subtract(1, 'months').daysInMonth();
-    }
-    // 获取第一天是周几
-    getFirstDayOfMonth(d) {
-        return moment(d).set('date', 1).get('day');
     }
     handleActiveYear(y) {
         const currentYear = moment(this.DATE).get('year');
@@ -284,7 +229,7 @@ export default class controller {
         angular.element(this.$window).on('click', this.hideCalendar);
     }
     hiddenOtherCalendar() {
-        const ngCalendar = document.querySelectorAll('.ng-calendar');
+        const ngCalendar = document.querySelectorAll('.ng-calendar-wrap');
         if (ngCalendar.length) {
             Array.prototype.forEach.call(ngCalendar, (elment) => {
                 elment.style.display = 'none';
@@ -318,9 +263,6 @@ export default class controller {
             display: 'none'
         });
         angular.element(this.$window).off('resize', this.windowResizeEvent);
-    }
-    __validateDate(d) {
-        return moment(d, DATE_FORMAT).isValid();
     }
     bindAttributes(ele) {
         if (ele) {

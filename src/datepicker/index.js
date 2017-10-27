@@ -3,16 +3,16 @@ import './uib.position';
 import controller from './controller';
 import datepickerTpl from './tpls/datepicker.html';
 import calendarTpl from './tpls/calendar.html';
-const Component = {
+const Datepicker = {
     selector: 'datepicker',
     bindings: {
         dateFormat: '@',
         dateMin: '<',
         dateMax: '<',
-        datepickerVisibility: '<',
         disabled: '<',
+        dateMode: '@',
+        datepickerVisibility: '<',
         dateDisabledWeekdays: '@',
-        // placeholder: '@',
         showTodayButton: '@',
         showClearButton: '@'
     },
@@ -24,7 +24,7 @@ const Component = {
     controller
 };
 export default angular.module('app.datepicker', ['ui.bootstrap.position'])
-    .component(Component.selector, Component)
+    .component(Datepicker.selector, Datepicker)
     .run(['$templateCache', ($templateCache) => {
         $templateCache.put('ngCalendar.html', calendarTpl);
     }])
