@@ -39,7 +39,7 @@
             </div>
             
             <div class="form-item">
-                {{vm.benginDate}}
+                <h5>开始时间</h5>
                 <datepicker ng-model="vm.benginDate"
                     date-format="YYYY-MM-DD"
                     placeholder="开始时间"
@@ -48,11 +48,22 @@
             </div>
 
             <div class="form-item">
+                <h5>结束时间</h5>
                 <datepicker ng-model="vm.endDate"
                     date-format="YYYY-MM-DD"
                     placeholder="结束时间"
                     date-min="vm.benginDate"></datepicker>
             </div>
+
+            <div class="form-item">
+                <h5>范围选择</h5>
+                <daterange-picker ng-model="vm.rangeDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="选择时间段"
+                    date-min="vm.rangeBenginDate"
+                    date-max="vm.rangeEndDate"></daterange-picker>
+            </div>
+
             <div class="form-item">
                 <button class="btn btn-primary"
                     type="button"

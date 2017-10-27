@@ -11,7 +11,7 @@ class ctrl {
         const timer = $timeout(() => {
             $timeout.cancel(timer);
         }, 5000);
-        this.visibility = true;
+        this.visibility = false;
         this.disabled = false;
     }
     toggleVisibility($event) {

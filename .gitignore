@@ -19,3 +19,4 @@ docs/*
 webpack.dev.js
 test/*
 .cache/*
+uib.position.js
