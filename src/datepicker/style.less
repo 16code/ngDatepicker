@@ -21,6 +21,15 @@
         clear: both;
     }
 }
+
+datepicker {
+    display: block;
+    position: relative;
+    width: @calendar-width;
+}
+.clearfix {
+    .clearfix()  
+}
 .ng-calendar-wrap {
     font-family: Helvetica Neue,Arial,sans-serif;
     box-sizing: border-box;
@@ -43,9 +52,20 @@
     width: @calendar-width;
     z-index: @calendar-Zindex;
     .clearfix();
+    &.timepicker-mode {
+        width: @calendar-width + 82px;
+    }
+    button {
+        cursor: pointer;
+    }
+    .disabled,
+    button[disabled] {
+        cursor: not-allowed;
+    }
     .calendar-panel {
         padding: @calendar-panel-padding;
         width: @calendar-panel-width;
+
         float: left;
     }
     td,
@@ -111,34 +131,53 @@
             span {padding:0 4px;}
         }      
     }
-    
-    .calendar-years {
-        padding-bottom: 3px;
-        border-bottom: 1px solid fade(@border-color, 78%);
+    .calendar-body {
+        position: relative;
+    }
+    .calendar-years-wrap {
+        // border-bottom: 1px solid fade(@border-color, 78%);
+        background-color: #fff;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 100%;
+        z-index: 2;
         .clearfix();
         .calendar-year {
             color: #575962;
-            // color: @calendar-date-color;
-            padding:0 5px;
             display: block;
             float: left;
-            width: 18%;
             text-align: center;
-            line-height: 24px;
-            border-radius: 3px;
-            margin: 1%;
-            transition: background .2s ease;
+            position: relative;
+            width: 25%;
+            height:0;
+            padding:0 0 16%;
+            > span {
+                transition: background .2s ease;
+                display: block;
+                position:absolute;
+                width:92%;
+                height:92%;
+                top: 0;
+                left: 0;
+                line-height: 36px;
+                font-size: 15px;
+                margin: 4%;
+                border-radius: 3px;
+            }
             &.active-year,
             &:hover {
-                background: #ebedf2;
+                span {
+                    background: #ebedf2;
+                }
             }
-            &.active-year {
+            &.active-year span {
                 color: @brand-primary;
             }
         }
         .calendar-year-btn.disabled {
             color: @date-disabled-color;
-            cursor: not-allowed;
             pointer-events: none;
             &:hover {
                 background-color: transparent;
@@ -194,7 +233,6 @@
         color: @date-disabled-color;
         // background: rgba(0, 0, 0, 0.03);
         background: transparent;
-        cursor: not-allowed;
     }
     .calendar-footer {
         padding-top: 10px;
@@ -211,7 +249,10 @@
             font-weight: 400;
             letter-spacing: 2px;
             width: 100%;
-            cursor: pointer;
+            &[disabled] {
+                background-color: transparent;
+                color: #999;
+            }
         }
         &.show-all-buttons {
             justify-content: space-between;
@@ -241,7 +282,5 @@
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     transition: all .3s;
-    width: @calendar-width;
+    width: 100%;
 }
-
-

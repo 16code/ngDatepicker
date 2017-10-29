@@ -3,7 +3,7 @@ class ctrl {
     constructor($timeout) {
         'ngInject';
         this.datedisabledweekdays = [];
-        this.defaultDate = '2017-10-29';
+        this.defaultDate = new Date();
 
 
         // this.benginDate = '2017-10-19';
@@ -13,10 +13,16 @@ class ctrl {
         }, 5000);
         this.visibility = false;
         this.disabled = false;
+        this.range = 18;
     }
     toggleVisibility($event) {
         $event.stopPropagation();
         this.visibility = !this.visibility;
+    }
+    testRange(n) {
+        n = +n || 0;
+
+        return `四舍五入: ${Math.round(n)}, 向上取整: ${Math.ceil(n)}, 向下取整 ${Math.floor(n)}`;
     }
 }
 export default angular.module('myApp', ['app.datepicker'])

@@ -1,16 +1,15 @@
-import {Helper, WEEK_OF_ROW, DATE_COLUMNS} from './helper/helper';
+import {Helper, DATE_COLUMNS} from '../helper/helper';
 let DATE_FORMAT = 'YYYY-MM-DD';
-const TODAY = moment(new Date(), DATE_FORMAT);
+const TODAY = moment(new Date(), DATE_FORMAT).startOf('date');
 export default class controller {
-    constructor($scope, $element, $attrs, $uibPosition, $compile, $timeout, $window, $templateCache, $locale) {
+    constructor($scope, $element, $attrs, $compile, $timeout, $window, $templateCache, $locale) {
         'ngInject';
-        Object.assign(this, {$scope, $element, $attrs, $uibPosition, $compile, $timeout, $window, $templateCache});
+        Object.assign(this, {$scope, $element, $attrs, $compile, $timeout, $window, $templateCache});
         const {SHORTDAY, MONTH} = $locale.DATETIME_FORMATS;
         this.SHORTDAY = SHORTDAY.map(day => day.replace('周', ''));
         this.SHORTMONTH = MONTH;
         this.DATE_COLUMNS = Array.from({length: DATE_COLUMNS}).map((d, i) => i + 1);
         this.hideCalendar = this.hideCalendar.bind(this);
-        this.windowResizeEvent = this.windowResizeEvent.bind(this);
     }
     $onInit() {
         const validateDate = Helper.validateDate;
@@ -18,16 +17,16 @@ export default class controller {
         DATE_FORMAT = this.dateFormat || DATE_FORMAT;
         this.input = angular.element(element.querySelector('.calendar-picker-input'));
         this.calendarIsOpend = false;
+        if (this.$attrs.timePicker === 'true') this.timePicker = true;
         this.dateDisabledWeekdays = this.$scope.$eval(this.dateDisabledWeekdays);
         this.ngModel.$render = () => {
-            this.DATE = validateDate(this.ngModel.$viewValue, DATE_FORMAT)
+            this.CALENDAR_DATE = validateDate(this.ngModel.$viewValue, DATE_FORMAT)
                 ? moment(this.ngModel.$viewValue, DATE_FORMAT) : moment();
             if (this.ngModel.$viewValue && validateDate(this.ngModel.$viewValue, DATE_FORMAT)) {
-                this.selectedDate = this.ngModel.$viewValue;
+                this.ngModelDate = moment(this.ngModel.$viewValue, DATE_FORMAT).format(DATE_FORMAT);
             }
-            this.updateDatePanel(this.DATE);
+            this.updateDatePanel(this.CALENDAR_DATE);
         };
-        // this.createOverlay();
         this.bindAttributes(this.input[0]);
         this.bindEvents();
     }
@@ -37,8 +36,8 @@ export default class controller {
 
         const canUpdate = (dateMin && dateMin.currentValue !== dateMin.previousValue) ||
             (dateMax && dateMax.currentValue !== dateMax.previousValue);
-        if (canUpdate && validateDate(this.DATE, DATE_FORMAT)) {
-            this.updateDatePanel(this.DATE);
+        if (canUpdate && validateDate(this.CALENDAR_DATE, DATE_FORMAT)) {
+            this.updateDatePanel(this.CALENDAR_DATE);
         }
         if (datepickerVisibility) {
             if (datepickerVisibility.currentValue) {
@@ -49,62 +48,54 @@ export default class controller {
         }
     }
     // 设置日期
-    handleSetDate(aDate, week) {
-        const {prev, next} = week;
+    handleSetDate(aDate) {
+        const {prev, next, day} = aDate;
         if (prev || next) return;
-        this.selectedDate = moment(aDate, DATE_FORMAT).startOf('date').format(DATE_FORMAT);
-        this.ngModel.$setViewValue(this.selectedDate);
+        this.ngModelDate = moment(this.CALENDAR_DATE).set('date', day).format(DATE_FORMAT);
+        this.ngModel.$setViewValue(this.ngModelDate);
         this.yearsPanelOpened = false;
-        this.hideCalendar();
+        if (!this.timePicker) {
+            this.hideCalendar();
+        }
     }
     // 清除日期
     handleClearDate() {
-        if (this.selectedDate) {
-            this.selectedDate = null;
-            this.ngModel.$setViewValue(this.selectedDate);
-            this.updateDatePanel(this.DATE);
+        if (this.ngModelDate) {
+            this.ngModelDate = null;
+            this.ngModel.$setViewValue(this.ngModelDate);
+            this.updateDatePanel(this.CALENDAR_DATE);
         }
-        this.hideCalendar();
+        // this.hideCalendar();
     }
     // 选择今天
     handlePickerToday() {
-        this.selectedDate = moment(TODAY, DATE_FORMAT).startOf('date').format(DATE_FORMAT);
-        this.ngModel.$setViewValue(this.selectedDate);
-        this.hideCalendar();
+        this.ngModelDate = TODAY.format(DATE_FORMAT);
+        this.ngModel.$setViewValue(this.ngModelDate);
+        // this.hideCalendar();
     }
     // 展开年份
     handleToggleYearPanel() {
-        if (!this.years) {
-            this.years = this.yearsGenerator(this.selectedDate || this.DATE);
-        }
         this.yearsPanelOpened = !this.yearsPanelOpened;
     }
     // 选择年份
     handlePickerYear(y) {
-        const beforeYear = moment(this.DATE).get('year');
+        const beforeYear = moment(this.CALENDAR_DATE).get('year');
         if (beforeYear === y) {
             this.handleToggleYearPanel();
             return;
         }
-        this.DATE = moment(this.DATE).set('year', y);
-        this.updateDatePanel(this.DATE);
+        this.CALENDAR_DATE = moment(this.CALENDAR_DATE).set('year', y);
+        this.updateDatePanel(this.CALENDAR_DATE);
         this.handleToggleYearPanel();
-        this.years = this.yearsGenerator(this.selectedDate);
-    }
-    // 高亮已选择的时间
-    handleIsSelectedDate(d) {
-        const a = moment(d, DATE_FORMAT);
-        const b = moment(this.selectedDate, DATE_FORMAT);
-        return a.isSame(b, 'day');
     }
     // 切换月份
     hanleChangeMonth(t) {
         if (t === 'next') {
-            this.DATE = moment(this.DATE, DATE_FORMAT).add(1, 'months');
+            this.CALENDAR_DATE = moment(this.CALENDAR_DATE, DATE_FORMAT).add(1, 'months');
         } else {
-            this.DATE = moment(this.DATE, DATE_FORMAT).subtract(1, 'months');
+            this.CALENDAR_DATE = moment(this.CALENDAR_DATE, DATE_FORMAT).subtract(1, 'months');
         }
-        this.updateDatePanel(this.DATE);
+        this.updateDatePanel(this.CALENDAR_DATE);
     }
     // 获取填充日期
     daysGenerator(d) {
@@ -113,6 +104,7 @@ export default class controller {
             const theDate = moment(this.dateMin, DATE_FORMAT).startOf('date');
             this.disabledMinDate = theDate.valueOf();
             this.disabledMinYear = theDate.get('year');
+            this.disabledTodayBtn = this.disabledMinDate >= TODAY.valueOf();
         }
         if (validateDate(this.dateMax, DATE_FORMAT)) {
             const theDate = moment(this.dateMax, DATE_FORMAT).startOf('date');
@@ -133,33 +125,10 @@ export default class controller {
             disabledWeekdays
         });
     }
-    // 日期按周分组
-    daysOfWeeks(column) {
-        this.daysInMonth = this.daysInMonth || [];
-        const sliceForm = (column - 1) * WEEK_OF_ROW;
-        return this.daysInMonth.slice(sliceForm * 1, sliceForm + WEEK_OF_ROW);
-    }
-    handleActiveYear(y) {
-        const currentYear = moment(this.DATE).get('year');
-        return currentYear === y;
-    }
-    // 更新年份
-    yearsGenerator(d) {
-        const daysToPrepend = 7;
-        const daysToAppend = 8;
-        const theNewYears = [];
-        const currentYear = moment(d).get('year');
-        for (let i = daysToPrepend; i > 0; i -= 1) {
-            theNewYears.push(+currentYear - i);
-        }
-        for (let i = 0; i < daysToAppend; i += 1) {
-            theNewYears.push(+currentYear + i);
-        }
-        return theNewYears;
-    }
+
     // 是否隐藏上一月按钮
     hiddenMonthBtn(type) {
-        const currentDate = moment(this.DATE, 'YYYY-MM');
+        const currentDate = moment(this.CALENDAR_DATE, 'YYYY-MM');
         if (type === 'prev') {
             if (this.dateMin) {
                 const dateMin = moment(this.dateMin, 'YYYY-MM');
@@ -186,23 +155,14 @@ export default class controller {
         if (!element) return;
         Object.assign(element.style, styles);
     }
-    createOverlay() {
-        let overlay = document.querySelector('.overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.classList.add('overlay');
-            document.body.appendChild(overlay);
-        }
-        this.overlay = overlay;
-    }
     createCalendar() {
         return new Promise((resolve) => {
             if (!this.calendar) {
                 const template = this.$templateCache.get('ngCalendar.html');
                 const theCalendar = angular.element(template);
                 const compiled = this.$compile(theCalendar);
-                angular.element(document.body).append(theCalendar);
                 compiled(this.$scope);
+                angular.element(this.$element).append(theCalendar);
                 this.calendar = angular.element(theCalendar)[0];
                 this.calendar.id = `ng-calendar-${new Date().getTime()}`;
                 angular.element(this.calendar).on('click', (event) => event.stopPropagation());
@@ -215,11 +175,6 @@ export default class controller {
             }
         });
     }
-    windowResizeEvent() {
-        if (this.calendarIsOpend && this.calendar) {
-            this.calendarPosition();
-        }
-    }
     bindEvents() {
         this.input.on('focus click', (event) => {
             event.stopPropagation();
@@ -228,22 +183,12 @@ export default class controller {
         });
         angular.element(this.$window).on('click', this.hideCalendar);
     }
-    hiddenOtherCalendar() {
-        const ngCalendar = document.querySelectorAll('.ng-calendar-wrap');
-        if (ngCalendar.length) {
-            Array.prototype.forEach.call(ngCalendar, (elment) => {
-                elment.style.display = 'none';
-            });
-        }
-    }
     calendarPosition() {
-        const position = this.$uibPosition.positionElements(this.input,
-            this.calendar, 'bottom-left', true);
         this.setStylesOnElement(this.calendar, {
             position: 'absolute',
             display: 'block',
-            left: `${position.left}px`,
-            top: `${position.top + 6}px`
+            left: '0px',
+            top: '42px'
         });
     }
     showCalendar() {
@@ -251,18 +196,37 @@ export default class controller {
         if (this.calendar) {
             this.calendarIsOpend = true;
             this.calendarPosition();
-            angular.element(this.$window).on('resize', this.windowResizeEvent);
         } else {
             this.createCalendar()
             .then(() => { this.showCalendar(); });
         }
     }
     hideCalendar() {
+        if (!this.calendarIsOpend) return;
         this.calendarIsOpend = false;
+        this.yearsPanelOpened = false;
+        const timer = this.$timeout(() => {
+            this.$timeout.cancel(timer);
+            if (this.ngModelDate) {
+                const a = moment(this.ngModelDate, DATE_FORMAT);
+                const b = moment(this.CALENDAR_DATE, DATE_FORMAT);
+                if (!a.isSame(b, 'day')) {
+                    this.CALENDAR_DATE = a.clone();
+                    this.updateDatePanel(this.ngModelDate);
+                }
+            }
+        });
         this.setStylesOnElement(this.calendar, {
             display: 'none'
         });
-        angular.element(this.$window).off('resize', this.windowResizeEvent);
+    }
+    hiddenOtherCalendar() {
+        const ngCalendar = document.querySelectorAll('.ng-calendar-wrap');
+        if (ngCalendar.length) {
+            Array.prototype.forEach.call(ngCalendar, (elment) => {
+                elment.style.display = 'none';
+            });
+        }
     }
     bindAttributes(ele) {
         if (ele) {
@@ -275,7 +239,6 @@ export default class controller {
         }
     }
     $onDestroy() {
-        angular.element(this.$window).off('resize', this.windowResizeEvent);
         angular.element(this.$window).off('click', this.hideCalendar);
         if (this.calendar) {
             this.calendar.parentNode.removeChild(this.calendar);

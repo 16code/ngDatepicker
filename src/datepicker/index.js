@@ -1,8 +1,14 @@
 import './style.less';
-import './uib.position';
 import controller from './controller';
 import datepickerTpl from './tpls/datepicker.html';
 import calendarTpl from './tpls/calendar.html';
+
+// import DateRangePicker from '../date-range-picker';
+import calendarDates from './calendar-dates';
+import calendarYears from './calendar-years';
+import timePicker from '../date-time-picker/component';
+
+
 const Datepicker = {
     selector: 'datepicker',
     bindings: {
@@ -23,8 +29,9 @@ const Datepicker = {
     template: datepickerTpl,
     controller
 };
-export default angular.module('app.datepicker', ['ui.bootstrap.position'])
+export default angular.module('app.datepicker', [calendarDates, calendarYears])
     .component(Datepicker.selector, Datepicker)
+    .component(timePicker.selector, timePicker)
     .run(['$templateCache', ($templateCache) => {
         $templateCache.put('ngCalendar.html', calendarTpl);
     }])

@@ -1,0 +1,12 @@
+<!-- ng-show="vm.yearsPanelOpened" -->
+<div class="calendar-years-wrap clearfix" ng-show="vm.yearsPanelOpened">
+    <a class="calendar-year calendar-year-btn" 
+        ng-class="{
+            'active-year': vm.isActiveYear(y),
+            disabled: (vm.disabledMinYear && vm.disabledMinYear > y) || (vm.disabledMaxYear && vm.disabledMaxYear < y)
+        }"
+        ng-click="vm.handleSelectYear(y)"
+        ng-repeat="y in vm.years track by y">
+        <span>{{y}}</span>
+    </a>
+</div>

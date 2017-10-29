@@ -25,19 +25,18 @@
             name="vm.testForm">
             <div class="form-item">
                 <datepicker ng-model="vm.defaultDate"
-                    date-format="YYYY-MM-DD"
-                    date-min="vm.benginDate"
-                    date-max="vm.endDate"
+                    date-format="YYYY-MM-DD HH:mm"
                     date-disabled-weekdays="{{vm.datedisabledweekdays}}"
                     datepicker-visibility="vm.visibility"
                     ng-if="vm.show"
                     disabled="vm.disabled"
-                    placeholder="YYYY-MM-DD"
+                    placeholder="YYYY-MM-DD HH:mm"
                     show-today-button="今天"
                     show-clear-button="清除"
+                    time-picker="true"
                     required></datepicker>
             </div>
-            
+
             <div class="form-item">
                 <h5>开始时间</h5>
                 <datepicker ng-model="vm.benginDate"

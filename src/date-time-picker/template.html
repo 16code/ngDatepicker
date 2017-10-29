@@ -1,0 +1,22 @@
+<div class="range-slider-wrapper">
+    <div class="time-current">{{vm.selectedDateString}}</div>
+    <div class="range-slider-item">
+        <input type="range"
+            min="0"
+            max="23"
+            step="1"
+            ng-model-options="{debounce: 10}"
+            ng-change="vm.hanldeTimeChange('HH', vm.hour);"
+            ng-model="vm.hour"
+            list="tickmarks"> 
+    </div>
+    <div class="range-slider-item">
+        <input type="range"
+            min="0"
+            max="59"
+            step="1"
+            ng-change="vm.hanldeTimeChange('MM', vm.minute);"
+            ng-model-options="{debounce: 10}"
+            ng-model="vm.minute">
+    </div>
+</div>
