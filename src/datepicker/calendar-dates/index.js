@@ -1,5 +1,5 @@
-import template from './template.html';
 import controller from './controller';
+const template = require('./template.html');
 const calendarDates = {
     selector: 'calendarDates',
     bindings: {

@@ -46,23 +46,30 @@
     }
     .range-slider-item {
         display: inline-block;
-        width: @track-height;
+        width: 28px;
         height: @track-width;
+        text-align: center;
         padding: 0;
-        margin: 0 11px;
         input[type=range] {
             margin: 0;
-            transform-origin: (@track-width/2)+2px (@track-width/2)+2px;
+            height: @track-height;
+            width: @track-width;
+            -moz-transform-origin: 122px 114px;
+            transform-origin: (@track-width/2)+8px (@track-width/2)-6px;
             transform: rotate(-90deg);
+            outline: 0;
         }
     }
     input[type=range] {
+        > * {
+            box-sizing: border-box;
+        }
         -webkit-appearance: none;
-        margin: @thumb-height/2 0;
+        // margin: @thumb-height/2 0;
         width: @track-width;
         // overflow: hidden;
         &:focus {
-            outline: none;
+            outline: 0;
         }
         &::-webkit-slider-runnable-track {
             .track();

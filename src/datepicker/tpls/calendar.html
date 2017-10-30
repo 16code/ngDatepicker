@@ -33,19 +33,6 @@
                 on-click-date="vm.handleSetDate(date)">
             </calendar-dates>
         </div>
-        <!-- <div class="calendar-footer" 
-            ng-class="{'show-all-buttons': vm.showTodayButton && (vm.showClearButton && vm.ngModelDate)}"
-            ng-hide="!vm.showTodayButton && (!vm.showClearButton || !vm.ngModelDate)">
-            <button type="button" class="clear-date" 
-                ng-show="vm.showClearButton && vm.ngModelDate"
-                ng-bind="vm.showClearButton || '清除'"
-                ng-click="vm.handleClearDate();"></button>
-            <button type="button" class="picker-today" 
-                ng-show="vm.showTodayButton"
-                ng-disabled="vm.disabledTodayBtn"
-                ng-bind="vm.showTodayButton || '今天'"
-                ng-click="vm.handlePickerToday();"></button>
-        </div> -->
     </div>
     <time-picker ng-if="vm.timePicker" 
         selected-date="vm.ngModelDate"

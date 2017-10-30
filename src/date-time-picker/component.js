@@ -1,5 +1,5 @@
-import template from './template.html';
-import './style.less';
+const template = require('./template.html');
+
 class controller {
     $onInit() {
         this.dateFormat = this.dateFormat || 'YYYY-MM-DD HH:mm';

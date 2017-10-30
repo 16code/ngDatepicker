@@ -1,11 +1,10 @@
-import './style.less';
 import controller from './controller';
-import datepickerTpl from './tpls/datepicker.html';
-import calendarTpl from './tpls/calendar.html';
+const datepickerTpl = require('./tpls/datepicker.html');
+const calendarTpl = require('./tpls/calendar.html');
 
 // import DateRangePicker from '../date-range-picker';
-import calendarDates from './calendar-dates';
-import calendarYears from './calendar-years';
+import calendarDates from './calendar-dates/index';
+import calendarYears from './calendar-years/index';
 import timePicker from '../date-time-picker/component';
 
 
@@ -19,8 +18,7 @@ const Datepicker = {
         dateMode: '@',
         datepickerVisibility: '<',
         dateDisabledWeekdays: '@',
-        showTodayButton: '@',
-        showClearButton: '@'
+        allowClear: '@'
     },
     require: {
         ngModel: '^ngModel'

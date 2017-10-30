@@ -1,5 +1,8 @@
-<!-- ng-show="vm.yearsPanelOpened" -->
-<div class="calendar-years-wrap clearfix" ng-show="vm.yearsPanelOpened">
+<div class="calendar-years-wrap clearfix" 
+    ng-class="{
+        visible : vm.yearsPanelOpened,
+        hidden: !vm.yearsPanelOpened
+    }">
     <a class="calendar-year calendar-year-btn" 
         ng-class="{
             'active-year': vm.isActiveYear(y),

@@ -5,7 +5,7 @@ export default class controller {
         'ngInject';
         Object.assign(this, {$scope, $element, $attrs, $compile, $timeout, $window, $templateCache});
         const {SHORTDAY, MONTH} = $locale.DATETIME_FORMATS;
-        this.SHORTDAY = SHORTDAY.map(day => day.replace('周', ''));
+        this.SHORTDAY = SHORTDAY;
         this.SHORTMONTH = MONTH;
         this.DATE_COLUMNS = Array.from({length: DATE_COLUMNS}).map((d, i) => i + 1);
         this.DATE_FORMAT = this.dateFormat || 'YYYY-MM-DD';
@@ -46,7 +46,7 @@ export default class controller {
     handleSetDate(aDate) {
         const {prev, next, day} = aDate;
         if (prev || next) return;
-        this.CALENDAR_DATE = moment(this.CALENDAR_DATE).set('date', day);
+        this.CALENDAR_DATE = this.CALENDAR_DATE.set('date', day);
         this.ngModelDate = this.CALENDAR_DATE.clone().format(this.DATE_FORMAT);
         this.ngModel.$setViewValue(this.ngModelDate);
         this.yearsPanelOpened = false;
@@ -57,10 +57,7 @@ export default class controller {
     // 时间更新
     handleTimeOnChange(time) {
         const {hour, minute} = time;
-        this.CALENDAR_DATE = moment(this.CALENDAR_DATE).set({
-            hour,
-            minute
-        });
+        this.CALENDAR_DATE = this.CALENDAR_DATE.set({hour, minute});
         this.ngModelDate = this.CALENDAR_DATE.clone().format(this.DATE_FORMAT);
         this.ngModel.$setViewValue(this.ngModelDate);
     }
@@ -71,7 +68,6 @@ export default class controller {
             this.ngModel.$setViewValue(this.ngModelDate);
             this.updateDatePanel(this.CALENDAR_DATE);
         }
-        // this.hideCalendar();
     }
     // 展开年份
     handleToggleYearPanel() {
@@ -79,21 +75,21 @@ export default class controller {
     }
     // 选择年份
     handlePickerYear(y) {
-        const beforeYear = moment(this.CALENDAR_DATE).get('year');
+        const beforeYear = this.CALENDAR_DATE.get('year');
         if (beforeYear === y) {
             this.handleToggleYearPanel();
             return;
         }
-        this.CALENDAR_DATE = moment(this.CALENDAR_DATE).set('year', y);
+        this.CALENDAR_DATE = this.CALENDAR_DATE.set('year', y);
         this.updateDatePanel(this.CALENDAR_DATE);
         this.handleToggleYearPanel();
     }
     // 切换月份
     hanleChangeMonth(t) {
         if (t === 'next') {
-            this.CALENDAR_DATE = moment(this.CALENDAR_DATE, this.DATE_FORMAT).add(1, 'months');
+            this.CALENDAR_DATE = this.CALENDAR_DATE.add(1, 'months');
         } else {
-            this.CALENDAR_DATE = moment(this.CALENDAR_DATE, this.DATE_FORMAT).subtract(1, 'months');
+            this.CALENDAR_DATE = this.CALENDAR_DATE.subtract(1, 'months');
         }
         this.updateDatePanel(this.CALENDAR_DATE);
     }
@@ -209,15 +205,13 @@ export default class controller {
                 }
             }
         });
-        this.setStylesOnElement(this.calendar, {
-            display: 'none'
-        });
+        this.calendar.classList.remove('active-calendar');
     }
     hiddenOtherCalendar() {
         const ngCalendar = document.querySelectorAll('.active-calendar');
         if (ngCalendar.length) {
             Array.prototype.forEach.call(ngCalendar, (elment) => {
-                elment.style.display = 'none';
+                elment.classList.remove('active-calendar');
             });
         }
     }
@@ -233,13 +227,7 @@ export default class controller {
     }
     calendarPosition() {
         this.hiddenOtherCalendar();
-        this.setStylesOnElement(this.calendar, {
-            position: 'absolute',
-            display: 'block',
-            left: '0px',
-            top: '42px'
-        });
-        this.$element[0].querySelector('.ng-calendar-wrap').classList.add('active-calendar');
+        this.calendar.classList.add('active-calendar');
     }
     $onDestroy() {
         angular.element(this.$window).off('click', this.hideCalendar);

@@ -1,4 +1,4 @@
-import template from './template.html';
+const template = require('./template.html');
 import controller from './controller';
 const calendarYears = {
     selector: 'calendarYears',

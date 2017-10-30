@@ -20,3 +20,5 @@ webpack.dev.js
 test/*
 .cache/*
 uib.position.js
+gulp/
+gulpfile.babel.js

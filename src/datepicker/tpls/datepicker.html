@@ -5,4 +5,7 @@
         ng-model="vm.ngModelDate"
         ng-disabled="vm.disabled" 
         readonly>
+    <button class="clear-date" ng-if="vm.allowClear && vm.ngModelDate" ng-click="vm.handleClearDate();">
+        <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/180/svg"><path d="M462.662 512l-91.695 91.695 49.338 49.338L512 561.338l91.695 91.695 49.338-49.338L561.338 512l91.695-91.695-49.338-49.338L512 462.662l-91.695-91.695-49.338 49.338L462.662 512zM512 837.818a325.818 325.818 0 1 1 0-651.636 325.818 325.818 0 0 1 0 651.636z"/></svg>
+    </button>   
 </div>
