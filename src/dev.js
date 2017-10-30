@@ -5,7 +5,7 @@ class ctrl {
         this.datedisabledweekdays = [];
         this.defaultDate = new Date();
 
-
+        this.defaultDateMin = '2017-10-29 04:00';
         // this.benginDate = '2017-10-19';
         // this.endDate = '2017-11-24';
         const timer = $timeout(() => {

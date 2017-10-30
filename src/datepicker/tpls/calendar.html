@@ -47,5 +47,9 @@
                 ng-click="vm.handlePickerToday();"></button>
         </div> -->
     </div>
-    <time-picker ng-if="vm.timePicker" selected-date="vm.ngModelDate"></time-picker>
+    <time-picker ng-if="vm.timePicker" 
+        selected-date="vm.ngModelDate"
+        date-min="vm.dateMin"
+        date-format="{{vm.dateFormat}}"
+        on-change="vm.handleTimeOnChange({hour, minute})"></time-picker>
 </div>

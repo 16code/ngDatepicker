@@ -1,8 +1,8 @@
 <div class="range-slider-wrapper">
-    <div class="time-current">{{vm.selectedDateString}}</div>
+    <div class="time-current">{{vm.dateTransform(vm.hour)}} : {{vm.dateTransform(vm.minute)}}</div>
     <div class="range-slider-item">
         <input type="range"
-            min="0"
+            min="{{vm.hourMin}}"
             max="23"
             step="1"
             ng-model-options="{debounce: 10}"
@@ -12,7 +12,7 @@
     </div>
     <div class="range-slider-item">
         <input type="range"
-            min="0"
+            min="{{vm.minuteMin}}"
             max="59"
             step="1"
             ng-change="vm.hanldeTimeChange('MM', vm.minute);"

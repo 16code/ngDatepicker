@@ -1,11 +1,11 @@
-@track-color: rgba(171, 171, 171, 0.2);
+@track-color: rgba(171, 171, 171, 0.32);
 @thumb-color: #fff;
 @thumb-radius: 50%;
 @thumb-height: 16px;
 @thumb-width: 16px;
 @thumb-border-width: 4px;
 @thumb-border-color: #ff6629;
-@track-width: 228px;
+@track-width: 224px;
 @track-height: 4px;
 @track-border-width: 0;
 @track-border-color: rgba(171, 171, 171, 0.4);
@@ -39,20 +39,20 @@
     right: 0;
     top: 0;
     .time-current {
-        line-height: 36px;
         font-weight: 400;
         color: #ff6629;
-        font-size: 15px;
+        font-size: 16px;
+        line-height: 35px;
     }
     .range-slider-item {
         display: inline-block;
         width: @track-height;
         height: @track-width;
         padding: 0;
-        margin: 0 12px;
+        margin: 0 11px;
         input[type=range] {
             margin: 0;
-            transform-origin: @track-width/2 @track-width/2;
+            transform-origin: (@track-width/2)+2px (@track-width/2)+2px;
             transform: rotate(-90deg);
         }
     }
