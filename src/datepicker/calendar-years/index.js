@@ -15,6 +15,6 @@ const calendarYears = {
     controller
 };
 
-export default angular.module('datepicker.calendarYears', [])
+export default angular.module('ngCalendarYears', [])
     .component(calendarYears.selector, calendarYears)
     .name;

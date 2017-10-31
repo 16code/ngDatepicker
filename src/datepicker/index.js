@@ -1,11 +1,9 @@
-import controller from './controller';
 const datepickerTpl = require('./tpls/datepicker.html');
-const calendarTpl = require('./tpls/calendar.html');
 
-// import DateRangePicker from '../date-range-picker';
-import calendarDates from './calendar-dates/index';
-import calendarYears from './calendar-years/index';
-import timePicker from '../date-time-picker/component';
+import ngCalendarDates from './calendar-dates/index';
+import ngCalendarYears from './calendar-years/index';
+import ngTimePicker from './calendar-time-picker/component';
+import controller from './controller';
 
 
 const Datepicker = {
@@ -27,10 +25,10 @@ const Datepicker = {
     template: datepickerTpl,
     controller
 };
-export default angular.module('app.datepicker', [calendarDates, calendarYears])
+export default angular.module('ngDatepicker', [ngCalendarDates, ngCalendarYears])
     .component(Datepicker.selector, Datepicker)
-    .component(timePicker.selector, timePicker)
+    .component(ngTimePicker.selector, ngTimePicker)
     .run(['$templateCache', ($templateCache) => {
-        $templateCache.put('ngCalendar.html', calendarTpl);
+        $templateCache.put('ngCalendar.html', require('./tpls/calendar.html'));
     }])
     .name;

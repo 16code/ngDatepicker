@@ -1,4 +1,4 @@
-import {Helper, DATE_COLUMNS} from '../helper/helper';
+import {Helper, DATE_COLUMNS} from './util.js';
 const TODAY = moment(new Date(), 'YYYY-MM-DD').startOf('date');
 export default class controller {
     constructor($scope, $element, $attrs, $compile, $timeout, $window, $templateCache, $locale) {
@@ -38,8 +38,13 @@ export default class controller {
         if (canUpdate && validateDate(this.CALENDAR_DATE, this.DATE_FORMAT)) {
             this.updateDatePanel(this.CALENDAR_DATE);
         }
-        if (datepickerVisibility && datepickerVisibility.currentValue) {
-            this.showCalendar();
+        if (datepickerVisibility) {
+            if (datepickerVisibility.currentValue) {
+                this.showCalendar();
+            }
+            if (datepickerVisibility.currentValue === false) {
+                this.hideCalendar();
+            }
         }
     }
     // 设置日期
@@ -177,12 +182,12 @@ export default class controller {
             this.createCalendar()
                 .then(() => {
                     this.showCalendar();
-                    angular.element(this.$window).on('click', this.hideCalendar);
                 });
         });
     }
     showCalendar() {
         if (this.calendar) {
+            angular.element(this.$window).on('click', this.hideCalendar);
             this.calendarIsOpend = true;
             this.calendarPosition();
         } else {
@@ -205,7 +210,7 @@ export default class controller {
                 }
             }
         });
-        this.calendar.classList.remove('active-calendar');
+        if (this.calendar) this.calendar.classList.remove('active-calendar');
     }
     hiddenOtherCalendar() {
         const ngCalendar = document.querySelectorAll('.active-calendar');

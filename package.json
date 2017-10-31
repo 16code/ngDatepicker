@@ -5,7 +5,7 @@
   "main": "dist/datepicker.js",
   "scripts": {
     "dev": "webpack-dev-server --env.dev",
-    "build": "webpack --progress --env.prod",
+    "build": "rm -rf ./dist && webpack --progress --env.prod && webpack --progress --env.source",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,7 +21,6 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.26.0",
     "clean-webpack-plugin": "^0.1.17",
-    "copy-webpack-plugin": "^4.2.0",
     "css-loader": "^0.28.7",
     "eslint": "^3.0.0",
     "eslint-loader": "^1.4.0",

@@ -6,7 +6,6 @@ var distPath = path.join(__dirname, './dist');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var cssLoaderConfig = ExtractTextPlugin.extract({
     fallback: 'style-loader',
@@ -26,13 +25,14 @@ var cssLoaderConfig = ExtractTextPlugin.extract({
 
 function webpackConfig(env) {
     var isProduct = env.prod;
+    var isSrc = env.source;
     var plugins = [
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            // chunks: ['app', 'vendor', 'runtime'],
-            filename: 'index.html',
-            title: 'Merchant Web'
-        }),
+        // new HtmlWebpackPlugin({
+        //     template: './src/index.html',
+        //     // chunks: ['app', 'vendor', 'runtime'],
+        //     filename: 'index.html',
+        //     title: 'Merchant Web'
+        // }),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             noParse: /node_modules/,
@@ -50,22 +50,30 @@ function webpackConfig(env) {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: isProduct ? JSON.stringify('production') : JSON.stringify('development')
+                NODE_ENV: isProduct ? JSON.stringify('production') : JSON.stringify('production')
             }
         }),
-        new CopyWebpackPlugin([
-            {
-                from: path.join(__dirname, 'style/'),
-                to: path.join(__dirname, 'dist/style/'),
-                toType: 'dir'
-            }
-        ]),
         new webpack.IgnorePlugin(/^\.\/locale$/)
     ];
-    var productionPlugins = [
-        new CleanWebpackPlugin([distPath]),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
+    let ugifyOption = {};
+    if (isSrc) {
+        ugifyOption = {
+            sourceMap: false,
+            comments: false,
+            beautify: true,
+            compress: {
+                warnings: false,
+                drop_console: true
+            },
+            output: {
+                beautify: true,
+                wrap_iife: true
+            }
+        }
+    }
+    // 用户生产环境
+    if (isProduct) {
+        ugifyOption = {
             sourceMap: false,
             comments: false,
             compress: {
@@ -75,22 +83,27 @@ function webpackConfig(env) {
             },
             mangle: {
                 keep_fnames: true
-            }        
-        })
+            }
+        };
+    }
+    var productionPlugins = [
+        // new CleanWebpackPlugin([distPath]),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.optimize.UglifyJsPlugin(ugifyOption)
     ]
-    // 用户生产环境
-    if (isProduct) {
+    if (isSrc || isProduct) {
         plugins.push(...productionPlugins);
     }
         
     return {
         cache: true,
-        devtool: isProduct ? false : 'source-map',
-        entry: './src/dev.js',
+        devtool: isProduct && isSrc ? false : 'source-map',
+        devtool: false,
+        entry: ['./src/datepicker/index.js', './src/styles/datepicker.less'],
         output: {
             publicPath: '/',
             libraryTarget: 'umd',
-            library: 'DatePicker',
+            library: 'ngDatePicker',
             filename: isProduct ? 'datepicker.min.js' : 'datepicker.js',
             path: distPath
         },

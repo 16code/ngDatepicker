@@ -1,4 +1,3 @@
-// import {WEEK_OF_ROW, DATE_COLUMNS} from '../../helper/helper';
 export default class Controller {
     $onChanges(changesObj) {
         const {yearsPanelOpened} = changesObj;

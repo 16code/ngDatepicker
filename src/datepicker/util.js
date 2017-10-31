@@ -37,8 +37,8 @@ const Helper = {
             const date = theDate.format(DATE_FORMAT);
             const value = theDate.valueOf();
             const weekday = theDate.isoWeekday();
-            const disabledMin = dateMin && value < disabledMinDate;
-            const disabledMax = dateMax && value > disabledMaxDate;
+            const disabledMin = dateMin && value <= disabledMinDate;
+            const disabledMax = dateMax && value >= disabledMaxDate;
             const isToday = Helper.handleIsToday(date, DATE_FORMAT);
             const disabledWeeekDays = canDisabledWeekdays && disabledWeekdays.includes(weekday);
             result.push({

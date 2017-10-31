@@ -13,6 +13,6 @@ const calendarDates = {
     controller
 };
 
-export default angular.module('datepicker.calendarDates', [])
+export default angular.module('ngCalendarDates', [])
     .component(calendarDates.selector, calendarDates)
     .name;

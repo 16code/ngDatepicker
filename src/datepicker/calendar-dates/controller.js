@@ -1,4 +1,4 @@
-import {WEEK_OF_ROW, DATE_COLUMNS} from '../../helper/helper';
+import {WEEK_OF_ROW, DATE_COLUMNS} from '../util.js';
 export default class Controller {
     constructor($scope, $element, $attrs, $locale) {
         'ngInject';
