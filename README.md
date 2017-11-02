@@ -11,6 +11,9 @@ Chrome | Firefox | IE | Opera | Safari
 --- | --- | --- | --- | --- |
  ✔ | ✔ | IE10 + | ✔ | ✔ |
 
+### Example
+[https://16code.github.io/ngDatepicker/](https://16code.github.io/ngDatepicker/) 
+
 ## Load
 
 
