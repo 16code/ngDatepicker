@@ -146,6 +146,38 @@
             </tbody>
         </table>
 
+        <h2>Examples</h2>
+        <div class="row show-grid">
+            <div class="col-10 form-group">
+                <label for="default-date">Date Time Picker</label>
+                <datepicker ng-model="vm.defaultDate"
+                    date-format="YYYY-MM-DD HH:mm"
+                    placeholder="Please Choice..."
+                    time-picker="true"
+                    allow-clear="true"
+                    picker-id="default-date"
+                    required></datepicker>
+            </div>
+
+        </div>
+        <div class="row show-grid clearfix">
+            <div class="col-5 form-group">
+                <label>Begin Date</label>
+                <datepicker ng-model="vm.beginDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="开始时间"
+                    allow-clear="true"
+                    date-max="vm.endDate"></datepicker>
+            </div>
+            <div class="col-5 form-group">
+                <label>End Date</label>
+                <datepicker ng-model="vm.endDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="结束时间"
+                    date-min="vm.beginDate"></datepicker>
+            </div>
+        </div>
+
         <h2 id="load">Load</h2>
 
         <div class="language-html highlighter-rouge">
@@ -178,38 +210,6 @@
             <div class="highlight">
                 <pre class="highlight"><code><span class="nt">&lt;datepicker</span> <span class="na">ng-model=</span><span class="s">"defaultDate"</span><span class="nt">&gt;&lt;/datepicker&gt;</span>
 </code></pre>
-            </div>
-        </div>
-        <h2>Examples</h2>
-        <div class="row show-grid">
-            <div class="col-10 form-group">
-                <label for="default-date">Date Time Picker</label>
-                <datepicker ng-model="vm.defaultDate"
-                    date-format="YYYY-MM-DD HH:mm"
-                    placeholder="Please Choice..."
-                    time-picker="true"
-                    allow-clear="true"
-                    picker-id="default-date"
-                    required></datepicker>
-            </div>
-
-        </div>
-        <div class="row show-grid clearfix">
-            <div class="col-5 form-group">
-                <label>Bengin</label>
-                <datepicker ng-model="vm.benginDate"
-                    date-format="YYYY-MM-DD"
-                    placeholder="开始时间"
-                    allow-clear="true"
-                    date-max="vm.endDate"></datepicker>
-            </div>
-
-            <div class="col-5 form-group">
-                <label>End</label>
-                <datepicker ng-model="vm.endDate"
-                    date-format="YYYY-MM-DD"
-                    placeholder="结束时间"
-                    date-min="vm.benginDate"></datepicker>
             </div>
         </div>
 
