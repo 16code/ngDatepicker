@@ -1,1 +1,307 @@
-My Page
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Begin Jekyll SEO tag v2.3.0 -->
+    <title>AngularJS DateTime Picker | ngDatepicker</title>
+    <meta property="og:title"
+        content="AngularJS DateTime Picker" />
+    <meta property="og:locale"
+        content="en_US" />
+    <meta name="description"
+        content="AngularJS DateTime Picker Without JQuery use Moment" />
+    <meta property="og:description"
+        content="AngularJS DateTime Picker Without JQuery use Moment" />
+    <link rel="canonical"
+        href="https://16code.github.io/ngDatepicker/" />
+    <meta property="og:url"
+        content="https://16code.github.io/ngDatepicker/" />
+    <meta property="og:site_name"
+        content="ngDatepicker" />
+    <script type="application/ld+json">
+        {
+            "name": "ngDatepicker",
+            "description": "AngularJS DateTime Picker Without JQuery use Moment",
+            "author": null,
+            "@type": "WebSite",
+            "url": "https://16code.github.io/ngDatepicker/",
+            "image": null,
+            "publisher": null,
+            "headline": "AngularJS DateTime Picker",
+            "dateModified": null,
+            "datePublished": null,
+            "sameAs": null,
+            "mainEntityOfPage": null,
+            "@context": "http://schema.org"
+        }
+    </script>
+    <!-- End Jekyll SEO tag -->
+
+    <meta name="description"
+        content="AngularJS DateTime Picker Without JQuery use Moment" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+    <meta name="theme-color"
+        content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700'
+        rel='stylesheet'
+        type='text/css'>
+    <link rel="stylesheet"
+        href="/ngDatepicker/assets/css/style.css?v=e971c74f06b204dd171b576694260e815e965505">
+    <link rel="stylesheet"
+        href="https://cdn.rawgit.com/16code/ngDatepicker/e971c74f/dist/ngDatepicker.min.css">
+    <style>
+        .row>*,
+        .row>*:after,
+        .row>*:before {
+            box-sizing: border-box;
+        }
+
+        .col-5,
+        .col-10 {
+            width: 50%;
+            float: left;
+            vertical-align: top;
+            left: 0;
+            min-height: 0.5px;
+        }
+
+        .col-10 {
+            width: 100%;
+        }
+
+        .row:after,
+        .row:before {
+            content: " ";
+            display: table
+        }
+
+        .row:after {
+            clear: both
+        }
+
+        .row {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        [class*=col-] {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .show-grid {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin: 0 0 10px;
+            font-size: 14px;
+            display: inline-block;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body ng-app="myApp">
+    <section class="page-header">
+        <h1 class="project-name">ngDatepicker</h1>
+        <h2 class="project-tagline">AngularJS DateTime Picker Without JQuery use Moment</h2>
+
+        <a href="https://github.com/16code/ngDatepicker"
+            class="btn">View on GitHub</a>
+
+    </section>
+
+    <section class="main-content">
+        <h1 id="angularjs-datetime-picker">AngularJS DateTime Picker</h1>
+
+        <h2 id="requirements">Requirements</h2>
+
+        <p>AngularJS v1.5.3+</p>
+
+        <h3 id="browser-support">Browser support</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Chrome</th>
+                    <th>Firefox</th>
+                    <th>IE</th>
+                    <th>Opera</th>
+                    <th>Safari</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>✔</td>
+                    <td>✔</td>
+                    <td>IE10 +</td>
+                    <td>✔</td>
+                    <td>✔</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="load">Load</h2>
+
+        <div class="language-html highlighter-rouge">
+            <div class="highlight">
+                <pre class="highlight"><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"dist/css/ngDatepicker.min.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">ng-app=</span><span class="s">"app"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"dist/ngDatepicker.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+            </div>
+        </div>
+
+        <h3 id="add-module-dependency">Add module dependency</h3>
+
+        <div class="language-js highlighter-rouge">
+            <div class="highlight">
+                <pre class="highlight"><code><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'app'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'ngDatepicker'</span><span class="p">]);</span>
+</code></pre>
+            </div>
+        </div>
+
+        <p>Call the directive wherever you want in your html page</p>
+
+        <div class="language-html highlighter-rouge">
+            <div class="highlight">
+                <pre class="highlight"><code><span class="nt">&lt;datepicker</span> <span class="na">ng-model=</span><span class="s">"defaultDate"</span><span class="nt">&gt;&lt;/datepicker&gt;</span>
+</code></pre>
+            </div>
+        </div>
+        <h2>Examples</h2>
+        <div class="row show-grid">
+            <div class="col-10 form-group">
+                <label for="default-date">Date Time Picker</label>
+                <datepicker ng-model="vm.defaultDate"
+                    date-format="YYYY-MM-DD HH:mm"
+                    placeholder="Please Choice..."
+                    time-picker="true"
+                    allow-clear="true"
+                    picker-id="default-date"
+                    required></datepicker>
+            </div>
+
+        </div>
+        <div class="row show-grid clearfix">
+            <div class="col-5 form-group">
+                <label>Bengin</label>
+                <datepicker ng-model="vm.benginDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="开始时间"
+                    allow-clear="true"
+                    date-max="vm.endDate"></datepicker>
+            </div>
+
+            <div class="col-5 form-group">
+                <label>End</label>
+                <datepicker ng-model="vm.endDate"
+                    date-format="YYYY-MM-DD"
+                    placeholder="结束时间"
+                    date-min="vm.benginDate"></datepicker>
+            </div>
+        </div>
+
+        <h2 id="doc">DOC</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ng-model</td>
+                    <td>String(new Date()) or Date Object</td>
+                    <td>-</td>
+                    <td>Set a default date to show and init datepicker</td>
+                </tr>
+                <tr>
+                    <td>date-format</td>
+                    <td>String</td>
+                    <td>YYYY-MM-DD</td>
+                    <td>Set the date format you want to use</td>
+                </tr>
+                <tr>
+                    <td>date-min</td>
+                    <td>String</td>
+                    <td>-</td>
+                    <td>Set a minimum date limit</td>
+                </tr>
+                <tr>
+                    <td>date-max</td>
+                    <td>String</td>
+                    <td>-</td>
+                    <td>Set a maximum date limit</td>
+                </tr>
+                <tr>
+                    <td>date-disabled-weekdays</td>
+                    <td>String(Array[1, 5, …])</td>
+                    <td>-</td>
+                    <td>Disable specific weekdays using an Array of weeks number</td>
+                </tr>
+                <tr>
+                    <td>time-picker</td>
+                    <td>String(Boolean)</td>
+                    <td>false</td>
+                    <td>Set the datepicker show timepicker</td>
+                </tr>
+                <tr>
+                    <td>datepicker-visibility</td>
+                    <td>Boolean</td>
+                    <td>false</td>
+                    <td>Set the datepicker visibility</td>
+                </tr>
+                <tr>
+                    <td>allow-clear</td>
+                    <td>String(Boolean)</td>
+                    <td>false</td>
+                    <td>Whether to show clear button</td>
+                </tr>
+                <tr>
+                    <td>placeholder</td>
+                    <td>String</td>
+                    <td>-</td>
+                    <td>Set the input placeholder</td>
+                </tr>
+                <tr>
+                    <td>required</td>
+                    <td>String(Boolean)</td>
+                    <td>false</td>
+                    <td>Set the input is required</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+        <footer class="site-footer">
+            <span class="site-footer-owner"><a href="https://github.com/16code/ngDatepicker">ngDatepicker</a> is maintained by <a href="https://github.com/16code">16code</a>.</span>
+
+            <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+        </footer>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/i18n/angular-locale_zh-cn.js"></script>
+    <script src="https://cdn.rawgit.com/16code/ngDatepicker/e971c74f/dist/ngDatepicker.min.js"></script>
+    <script>
+        angular.module('myApp', ['ngDatepicker']);
+    </script>
+</body>
+
+</html>
