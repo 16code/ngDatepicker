@@ -44,10 +44,10 @@ Option | Type | Default | Description
 ------------- | ------------- | ------------- | -------------
 ng-model | String(new Date()) or Date Object | - | Set a default date to show and init datepicker
 date-format | String | YYYY-MM-DD | Set the date format you want to use
-date-min | String or Date Object | false | Set a minimum date limit
-date-max | String or Date Object | false | Set a maximum date limit
-date-disabled-weekdays | String or Date Object | false | Set a maximum date limit
-time-picker | String(Array[1, 5, ...]) | false | Disable specific weekdays using an Array of weeks number
+date-min | String | - | Set a minimum date limit
+date-max | String | - | Set a maximum date limit
+date-disabled-weekdays | String(Array[1, 5, ...]) | - | Disable specific weekdays using an Array of weeks number
+time-picker | String(Boolean) | false |  Set the datepicker show timepicker
 datepicker-visibility | Boolean | false | Set the datepicker visibility
 allow-clear | String(Boolean) | false | Whether to show clear button
 placeholder | String |  -| Set the input placeholder
