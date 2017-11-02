@@ -13,7 +13,6 @@ const Datepicker = {
         dateMin: '<',
         dateMax: '<',
         disabled: '<',
-        dateMode: '@',
         datepickerVisibility: '<',
         dateDisabledWeekdays: '@',
         allowClear: '@'

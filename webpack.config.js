@@ -46,7 +46,7 @@ function webpackConfig(env) {
             }
         }),
         new ExtractTextPlugin({
-            filename: isProduct ? 'datepicker.min.css' : 'datepicker.css'
+            filename: isProduct ? 'ngDatepicker.min.css' : 'ngDatepicker.css'
         }),
         new webpack.DefinePlugin({
             'process.env': {
@@ -104,7 +104,7 @@ function webpackConfig(env) {
             publicPath: '/',
             libraryTarget: 'umd',
             library: 'ngDatePicker',
-            filename: isProduct ? 'datepicker.min.js' : 'datepicker.js',
+            filename: isProduct ? 'ngDatepicker.min.js' : 'ngDatepicker.js',
             path: distPath
         },
         module: {
