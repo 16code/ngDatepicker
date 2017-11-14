@@ -30,17 +30,20 @@ const Helper = {
                 });
             }
         }
-
         Array.from({length: moment(d).daysInMonth()}).forEach((t, i) => {
             const day = i + 1;
             const theDate = moment(d).set('date', day).startOf('date');
             const date = theDate.format(DATE_FORMAT);
             const value = theDate.valueOf();
             const weekday = theDate.isoWeekday();
-            const disabledMin = dateMin && value <= disabledMinDate;
-            const disabledMax = dateMax && value >= disabledMaxDate;
-            const isToday = Helper.handleIsToday(date, DATE_FORMAT);
+            const disabledMin = dateMin && value < disabledMinDate;
+            const disabledMax = dateMax && value > disabledMaxDate;
+            const isToday = Helper.handleIsToday(date);
             const disabledWeeekDays = canDisabledWeekdays && disabledWeekdays.includes(weekday);
+            // if (disabledMinDate && Helper.handleIsToday(disabledMinDate)
+            //     && Helper.handleIsToday(theDate)) {
+            //     disabledMin = false;
+            // }
             result.push({
                 date,
                 disabled: disabledMin || disabledMax || disabledWeeekDays,
@@ -63,9 +66,10 @@ const Helper = {
         }
         return result;
     },
-    handleIsToday(d, DATE_FORMAT) {
-        const today = moment(new Date(), DATE_FORMAT);
-        return moment(d, DATE_FORMAT).isSame(today, 'day');
+    handleIsToday(d) {
+        const today = moment().format('YYYY/MM/DD');
+        const vDate = moment(d).format('YYYY/MM/DD');
+        return today === vDate;
     },
     // 获取上一月多有多少天
     getDaysInPrevMonth(d) {
