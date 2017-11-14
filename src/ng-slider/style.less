@@ -1,0 +1,83 @@
+.ng-slider-box {
+    width: 100%;
+    height: 6px;
+    margin: 16px 0;
+    background-color: #dfe4ed;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    box-sizing:content-box;
+    &::before,
+    &::after {
+        display: table;
+        content: "";
+    }
+    &::after {
+        clear: both;
+    }
+    .ng-slider__bar {
+        height: 6px;
+        background-color: #ff6629;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        position: absolute;
+    }
+    .ng-slider__wrapper {
+        height: 36px;
+        width: 36px;
+        position: absolute;
+        z-index: 1001;
+        top: -15px;
+        transform: translateX(-50%);
+        background-color: transparent;
+        text-align: center;
+        user-select: none;
+    }
+    .slider-button {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ff6629;
+        background-color: #fff;
+        border-radius: 50%;
+        transition: .2s;
+        user-select: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    .slider-button.onDragging {
+        transform: scale(1.2);
+    }
+}
+.ng-slider.vertical {
+    position: relative;
+    display: inline-block;
+    .ng-slider-box {
+        width: 6px;
+        height: 214px;
+        margin: 0;
+    }
+    .ng-slider__bar {
+        width: 6px;
+        height: auto;
+        border-radius: 0 0 3px 3px;
+        bottom: 0%;
+    }
+    .ng-slider__wrapper {
+        top: auto;
+        left: -15px;
+        transform: translateY(50%);
+    }
+}
+.ng-slider-box *,
+.ng-slider-box *:after,
+.ng-slider-box *:before {
+	box-sizing:content-box;
+}

@@ -2,7 +2,7 @@
   "name": "ng-datepicker",
   "version": "0.0.1",
   "description": "AngularJS DateTime Picker",
-  "main": "dist/datepicker.js",
+  "main": "dist/ngDatepicker.js",
   "scripts": {
     "dev": "webpack-dev-server --env.dev",
     "build": "rm -rf ./dist && webpack --progress --env.prod && webpack --progress --env.source",

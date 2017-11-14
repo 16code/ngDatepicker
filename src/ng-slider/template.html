@@ -1,0 +1,8 @@
+<div class="ng-slider" ng-class="{vertical: vm.vertical}">
+    <div class="ng-slider-box">
+        <div class="ng-slider__bar" ng-style="vm.barStyle()"></div>
+        <div class="ng-slider__wrapper" ng-style="vm.wrapperStyle()" ng-mousedown="vm.onMouseDown($event)">
+            <div class="slider-button slider-tooltip" ng-class="{onDragging: vm.dragging}"></div>
+        </div>
+    </div>
+</div>
