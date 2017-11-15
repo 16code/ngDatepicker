@@ -12,7 +12,7 @@ export default class controller {
         this.hideCalendar = this.hideCalendar.bind(this);
     }
     $onInit() {
-        const {timePicker, pickerId, disabled, allowClear, rangePicker} = this.$attrs;
+        const {timePicker, pickerId, disabled, allowClear} = this.$attrs;
         const validateDate = Helper.validateDate;
         const element = this.$element[0];
         this.input = angular.element(element.querySelector('.calendar-picker-input'));
@@ -20,7 +20,6 @@ export default class controller {
         this.disabled = typeof disabled !== 'undefined';
         this.timePicker = typeof timePicker !== 'undefined';
         this.allowClear = typeof allowClear !== 'undefined';
-        this.rangePicker = typeof rangePicker !== 'undefined';
         if (pickerId) this.input[0].id = pickerId;
         this.dateDisabledWeekdays = this.$scope.$eval(this.dateDisabledWeekdays);
         this.ngModel.$render = () => {

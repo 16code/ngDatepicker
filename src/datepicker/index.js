@@ -4,7 +4,6 @@ import ngCalendarDates from './calendar-dates/index';
 import ngCalendarYears from './calendar-years/index';
 import ngTimePicker from './calendar-time-picker/component';
 import controller from './controller';
-import dateRange from '../date-range';
 
 const Datepicker = {
     selector: 'datepicker',
@@ -24,7 +23,7 @@ const Datepicker = {
     template: datepickerTpl,
     controller
 };
-export default angular.module('ngDatepicker', [ngCalendarDates, ngCalendarYears, ngSlider, dateRange])
+export default angular.module('ngDatepicker', [ngCalendarDates, ngCalendarYears, ngSlider])
     .component(Datepicker.selector, Datepicker)
     .component(ngTimePicker.selector, ngTimePicker)
     .run(['$templateCache', ($templateCache) => {
